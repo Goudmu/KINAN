@@ -1,60 +1,60 @@
 "use client"
 import Image from 'next/image'
 import React, { useState } from 'react'
-import AfterThree from '../after3/page'
+import Typewriter from 'typewriter-effect';
 
-const dataImg = ['/t1.jpg', '/t2.jpg', '/t3.jpg', '/t4.jpg', '/t5.jpg', '/t6.jpg']
+const dataImg3 = ['b1.gif', 'b2.gif', 'b3.gif', 'b4.gif', ]
+const data3 = ['BTW HAPPYYYY BIRTHHH DAYYYYYYY', "CIYEEE YANG ULTAHHHH", "SEMOGA PANJANG UMURR", "SEMOGA SEHAT SELALU DAN DILANCARKAN REZEKINYA"]
 
-const AfterTwo = ({noBG, setnoBG}) => {
-    const [selected, setSelected] = useState()
-    const [isNext, setisNext] = useState(false)
+let hasil3 = 0
 
-    const clickHandler = (index) => {
-        if(selected == index && selected != undefined){
-            setSelected()
-        } else{
-            setSelected(index)
-        }
+const AfterTwo = ({setisYes, setnoBG, noBG}) => {
+    const [noImg3, setnoImg3] = useState(dataImg3[0])
+  const [nuimg3, setnuimg3] = useState(0)
+  const [text3, setText3] = useState(data3[0])
+
+  const yesHandler3 = () => {
+    if(nuimg3 < 3){
+      setText3(data3[nuimg3+1])
+      setnoImg3(dataImg3[nuimg3+1])
+      setnuimg3(nuimg3+1)
+    } else {
+      setnoBG(noBG+1)
+      setisYes(isYes+1)
     }
-    
-    const nextHandler = () => {
-        let before = noBG
-        setnoBG(before+1)
-        setisNext(true)
-    }
+  }
 
   return (
     <div>
-        {
-            isNext ?
-                <AfterThree place={selected} noBG={noBG} setnoBG={setnoBG} />
-            :
-            <div>
-                <div className=' items-center text-center md:text-2xl' >
-                    <h1>What destination you would love to go with me ???</h1>
-                </div>
-                <div className='grid grid-cols-2 md:grid-cols-3 gap-2'>
-                    {dataImg.map((data, index) => (
-                        <div onClick={() => clickHandler(index)} key={index} >
-                            <Image src={data} alt='' width={150} height={150} 
-                            className={`rounded-md w-full h-full cursor-pointer hover:opacity-100 transition ease-in-out delay-100
-                            ${selected == index ? "scale-105 opacity-100" : "scale-100 opacity-70"}
-                            `} 
-                            />
-                        </div>
-                    ))}
-                </div>
-                {
-                    selected == undefined ?
-                        <div></div>
-                    :
-                    (<div className='items-center mt-10 text-center'>
-                        <button className=" bg-red-300 rounded-md px-2 py-1 text-xs md:text-lg text-center" onClick={nextHandler} >Next</button>
-                    </div>)
-                }
+        <div className="m-auto overflow-hidden relative h-60 w-60">
+                <Image layout="fill" objectFit="cover" src={`/${noImg3}`} alt="" />
             </div>
-        }
-    </div>
+            <div className=" text-center w-full h-full my-4" >
+            <button className=" bg-red-300 rounded-md px-2 py-1 text-xs md:text-lg text-center" onClick={yesHandler3} >
+            <Typewriter
+            onInit={(typewriter) => {
+                data3.map((e) => {
+                typewriter.typeString(e)
+                .pauseFor(500)
+                .deleteAll()
+                .callFunction(() => {
+                    hasil3 += 0.5
+                    if(hasil3 % 1 == 0){
+                    setnoImg3(dataImg3[hasil3])
+                    }
+                    if(hasil3 > 3){
+                        setnoBG(noBG+1)
+                        setisYes(3)
+                    }
+                })
+                .start()
+                })
+            }}
+            options={{delay:75}}
+            />
+            </button>
+            </div>
+        </div>
   )
 }
 
